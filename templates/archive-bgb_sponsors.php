@@ -59,7 +59,7 @@ get_header(); ?>
 			<p>Nothing to show yet</p>
 		<?php endif; ?>
 
-		</div><!-- #content -->
+		</div><!-- #content --> 
 	</section><!-- #primary -->
 
 <?php get_sidebar(); ?>
