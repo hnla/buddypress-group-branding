@@ -1,0 +1,17 @@
+/*
+* This stylesheet provides basic styles for 'BP Group Branding'
+*
+* As a plugins setting page was not considered relevent or necessary at this stage for the plugin
+* the method of deployment and use of this file was left as a manual one.
+*
+* This file original copy is kept in /templates/ where it is inactive, to use the file you can locate / copy
+* it manually to a number of locations, initially in the plugin dir /css/ however to have safer control copy the file to your theme
+* you can place it various dirs if they exist such as /your-theme/css/, /your-theme/assets/css/, /your-theme/inc/css/ 
+* or just store the file in your theme root, from these theme positions you may modify the file without losing changes.
+*
+* @package
+* @subpackage
+* @version
+* @author
+*/
+
