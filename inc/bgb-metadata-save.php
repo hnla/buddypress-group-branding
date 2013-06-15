@@ -85,7 +85,7 @@ global $wp, $post;
 			);
 		
 	$meta_key = 'bgb_header_elements';
-	$meta_value = get_post_meta($post_id, $meta_key1, true);
+	$meta_value = get_post_meta($post_id, $meta_key, true);
 	
 	if ( $new_meta_value && $new_meta_value != $meta_value ) {
   update_post_meta( $post_id, $meta_key, $new_meta_value );	
@@ -101,6 +101,54 @@ add_action('save_post', 'bgb_save_enable_header', 10, 2);
 /*
 * Left Column: Metabox saves
 */
+
+function bgb_sponsors_details($post_id) {
+global $wp, $post;
+	
+	// precaution! prevent functions running if not CPT in question; perhaps overkill?
+	if(  'bgb_sponsors' !== $post->post_type )
+		return;
+		
+ if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+   return $post->ID;
+  }
+	//if ( !wp_verify_nonce( $_POST['bgb_enable_group_header_nonce'], basename( __FILE__ ) ) )
+	 // return $post_id;
+
+	$post_id = $post->ID;
+	$post_type = get_post_type_object($post->post_type);
+
+	if( !current_user_can($post_type->cap->edit_post, $post_id) )
+		return $post_id;
+	
+	$new_meta_value = array(
+			'name' => ( isset($_POST['name'] ) ) ? sanitize_text_field( $_POST['name'] ) : '',
+			'company_name' => ( isset($_POST['company_name'] ) ) ?   sanitize_text_field( $_POST['company_name'] ) : '',
+			'public_email' => ( isset($_POST['public_email'] ) && is_email( $_POST['public_email'] ) ) ? sanitize_text_field( $_POST['public_email'] ) : '',
+			'address_1' => ( isset($_POST['address_1'] ) ) ?   sanitize_text_field( $_POST['address_1'] ) : '',
+			'address_2' => ( isset($_POST['address_2'] ) ) ?   sanitize_text_field( $_POST['address_2'] ) : '',
+			'address_3' => ( isset($_POST['address_3'] ) ) ?   sanitize_text_field( $_POST['address_3'] ) : '',
+			'city' => ( isset($_POST['city'] ) ) ?   sanitize_text_field( $_POST['city'] ) : '',
+			'state' => ( isset($_POST['state'] ) ) ?   sanitize_text_field( $_POST['state'] ) : '',
+			'country' => ( isset($_POST['country'] ) ) ?   sanitize_text_field( $_POST['country'] ) : '',
+			'postal_code' => ( isset($_POST['postal_code'] ) ) ?   sanitize_text_field( $_POST['postal_code'] ) : '',
+			);
+		
+	$meta_key = 'bgb_sponsors_details';
+	$meta_value = get_post_meta($post_id, $meta_key, true);
+	
+	if ( $new_meta_value && $new_meta_value != $meta_value ) {
+  update_post_meta( $post_id, $meta_key, $new_meta_value );	
+	
+	}elseif ( '' == $new_meta_value && $meta_value ) {
+		$meta_value = '';
+	 update_post_meta( $post_id, $meta_key, $meta_value );
+	}
+
+}
+	//post saves
+add_action('save_post', 'bgb_sponsors_details', 10, 2);
+
 function bgb_summary($post_id) {
 global $wp, $post;
  

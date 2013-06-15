@@ -65,6 +65,21 @@ function bgb_metaboxes_id() {
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_id');
+
+function bgb_metaboxes_sponsor_details() {
+ 
+    add_meta_box(  
+        'bgb_sponsor_details', // $id  
+        'Sponsor Details', // $title   
+        'bgb_sponsor_details', // $callback  
+        'bgb_sponsors', // $page  
+        'normal', // $context  
+        'high' // $priority
+					);   
+  
+}
+add_action('add_meta_boxes', 'bgb_metaboxes_sponsor_details');
+
 /*
 * Right Column: metabox callback functions
 */
@@ -156,6 +171,51 @@ add_action('add_meta_boxes', 'bgb_metaboxes_id');
 	<?php
 	}
 
+	function bgb_sponsor_details($post) {
+	global $wp;
+	$bgb_sponsors_details = get_post_meta( $post->ID, 'bgb_sponsors_details', true );
+	//var_dump($bgb_sponsors_details)	;
+		?> 
+		<p><?php _e('Sponsors name & address details', 'bgb-branding'); ?></p>
+		 
+			<fieldset class="sponsor-general-details"><legend><?php _e('General sponsor details', 'bgb-branding'); ?></legend>
+				<label for="sponsor-name">Name</label>
+		 	<input id="sponsor-name" type="text" name="name" value="<?php echo esc_html( $bgb_sponsors_details['name'] );  ?>" />
+		 	<label for="sponsor-company-name">Company Name</label>
+		 	<input id="sponsor-company-name" type="text" name="company_name" value="<?php echo esc_html( $bgb_sponsors_details['company_name'] );  ?>"   />
+				<label for="sponsor-public-email">Public Email</label>
+		 	<input id="sponsor-public-email" type="email" name="public_email" value="<?php echo esc_html( $bgb_sponsors_details['public_email'] );  ?>"  />
+		 </fieldset>
+		
+		<fieldset class="sponsor-address"><legend>Sponsor address</legend>
+		 <p>
+			<label for="address-1"><?php _e('Addres line 1', 'bgb-branding'); ?></label>
+		 <input id="address-1" type="text" name="address_1" value="<?php echo esc_html( $bgb_sponsors_details['address_1'] );  ?>"   />
+		 <p>
+			<label for="address-2"><?php _e('Addres line 2', 'bgb-branding'); ?></label>
+		 <input id="address-2" type="text" name="address_2" value="<?php echo esc_html( $bgb_sponsors_details['address_2'] );  ?>"   />
+		 <p>
+			<label for="address-3"><?php _e('Addres line 3', 'bgb-branding'); ?></label>
+		 <input id="address-3" type="text" name="address_3" value="<?php echo esc_html( $bgb_sponsors_details['address_3'] );  ?>"   />
+		 <p>
+			<label for="city"><?php _e('City', 'bgb-branding'); ?></label>
+		 <input id="city" type="text" name="city" value="<?php echo esc_html( $bgb_sponsors_details['city'] );  ?>"   />
+		 <p>
+		 <p>
+			<label for="state"><?php _e('State', 'bgb-branding'); ?></label>
+		 <input id="state" type="text" name="state" value="<?php echo esc_html( $bgb_sponsors_details['state'] );  ?>"   />
+		 <p>
+		 <p>
+			<label for="country"><?php _e('Country', 'bgb-branding'); ?></label>
+		 <input id="country" type="text" name="country" value="<?php echo esc_html( $bgb_sponsors_details['country'] );  ?>"   />
+		 <p>
+			<label for="address-zip"><?php _e('Zip or Post Code', 'bgb-branding'); ?></label>
+		 <input id="address-zip" type="text" name="postal_code" value="<?php echo esc_html( $bgb_sponsors_details['postal_code'] );  ?>"   />
+			</p>
+		</fieldset>
+	
+	<?php
+	}	
 #############################################################################
 
 	function rev_dish_ingredients($post) {
