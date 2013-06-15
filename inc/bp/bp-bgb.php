@@ -17,27 +17,6 @@
 *
 */
 	
-	/*
-	* here be our scripts & styles - if any
-	*/
-if( !is_admin()  ) {
-	/**
-	* @ToDo: add checks for various theme dir locations for stylesheets
-	*/
-	function bgb_styles() {
-		if( bp_is_group() ) {
-			$file_exists = file_exists( get_stylesheet_directory() . 'css/bgb-styles.css');
-			//var_dump($file_exists);
-			if( $file_exists ) :
-				wp_enqueue_style( 'bgb-styles',  get_stylesheet_directory_uri() . '/bgb-styles.css', array() );
-			else:
-				wp_enqueue_style( 'bgb-styles',  plugins_url('/css/bgb-styles.css')  , array() );
-			endif;
-		}
-	}
-add_action( 'wp_enqueue_scripts', 'bgb_styles' );
-}
-
 $bp = buddypress();
 
 /*
@@ -79,10 +58,10 @@ add_action( 'bp_actions', 'setup_group_sponsor_home' );
 // Add a body class if group has a sponsor/brand
 function bgb_set_body_token($classes) {
 global $bgb_group_data;
-if ( $bgb_group_data->group_has_sponsor ) {
-	$classes[] .= 'bgb-group-has-sponsor';
-}
-return $classes;
+	if ( $bgb_group_data->group_has_sponsor ) {
+		$classes[] .= 'bgb-group-has-sponsor';
+	}
+	return $classes;
 }
 add_filter('body_class', 'bgb_set_body_token');
 /*
