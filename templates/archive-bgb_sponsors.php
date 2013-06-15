@@ -2,7 +2,7 @@
 /**
  * A template for displaying an archive list of all site group sponsors
  *
- * This is a rough & ready template with few frills 
+ * This is a rough & ready template with few frills. 
  *
  * @package buddypress Group Branding
  * @subpackage buddypress Group Branding Archive template
@@ -59,7 +59,7 @@ get_header(); ?>
 			<p>Nothing to show yet</p>
 		<?php endif; ?>
 
-		</div><!-- #content -->
+		</div><!-- #content --> 
 	</section><!-- #primary -->
 
 <?php get_sidebar(); ?>
