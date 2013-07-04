@@ -10,72 +10,73 @@
 
 function bgb_metaboxes_enable_sponsor() {
  
-    add_meta_box(  
-        'bgb_enable_sponsors', // $id  
-        'Enable / Disable group branding', // $title   
-        'bgb_enable_the_sponsor', // $callback  
-        'bgb_sponsors', // $page  
-        'side', // $context  
-        'high' // $priority
-					);   
+  add_meta_box(  
+    'bgb_enable_sponsors', // $id  
+    'Enable / Disable group branding', // $title   
+    'bgb_enable_the_sponsor', // $callback  
+    'bgb_sponsors', // $page  
+    'side', // $context  
+    'high' // $priority
+		);   
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_enable_sponsor'); 
 
 function bgb_metaboxes_enable_group_header() {
  
-    add_meta_box(  
-        'bgb_enable_group_header', // $id  
-        'Enable / Disable group branding of the group header', // $title   
-        'bgb_enable_group_header', // $callback  
-        'bgb_sponsors', // $page  
-        'side', // $context  
-        'high' // $priority
-					);   
+  add_meta_box(  
+    'bgb_enable_group_header', // $id  
+    'Enable / Disable group branding of the group header', // $title   
+    'bgb_enable_group_header', // $callback  
+    'bgb_sponsors', // $page  
+    'side', // $context  
+    'high' // $priority
+		);   
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_enable_group_header');
+
 /*
 * Left Column: Main metabox options
 */
 function bgb_metaboxes_summary() {
  
-    add_meta_box(  
-        'bgb_sponsor_summary', // $id  
-        'Sponsor Summary', // $title   
-        'bgb_sponsor_summary', // $callback  
-        'bgb_sponsors', // $page  
-        'normal', // $context  
-        'high' // $priority
-					);   
+  add_meta_box(  
+    'bgb_sponsor_summary', // $id  
+    'Sponsor Summary', // $title   
+    'bgb_sponsor_summary', // $callback  
+    'bgb_sponsors', // $page  
+    'normal', // $context  
+    'high' // $priority
+		);   
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_summary');
 
 function bgb_metaboxes_id() {
  
-    add_meta_box(  
-        'bgb_sponsor_group_id', // $id  
-        'Sponsor Group ID', // $title   
-        'bgb_sponsor_group_id', // $callback  
-        'bgb_sponsors', // $page  
-        'normal', // $context  
-        'high' // $priority
-					);   
+  add_meta_box(  
+    'bgb_sponsor_group_id', // $id  
+    'Sponsor Group ID', // $title   
+    'bgb_sponsor_group_id', // $callback  
+    'bgb_sponsors', // $page  
+    'normal', // $context  
+    'high' // $priority
+		);   
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_id');
 
 function bgb_metaboxes_sponsor_details() {
  
-    add_meta_box(  
-        'bgb_sponsor_details', // $id  
-        'Sponsor Details', // $title   
-        'bgb_sponsor_details', // $callback  
-        'bgb_sponsors', // $page  
-        'normal', // $context  
-        'high' // $priority
-					);   
+  add_meta_box(  
+    'bgb_sponsor_details', // $id  
+    'Sponsor Details', // $title   
+    'bgb_sponsor_details', // $callback  
+    'bgb_sponsors', // $page  
+    'normal', // $context  
+    'high' // $priority
+		);   
   
 }
 add_action('add_meta_boxes', 'bgb_metaboxes_sponsor_details');
@@ -85,7 +86,7 @@ add_action('add_meta_boxes', 'bgb_metaboxes_sponsor_details');
 */
 
 	function bgb_enable_the_sponsor($post) {
-	global $wp, $post, $typenow;
+	global $wp, $typenow;
 	//var_dump(get_post_meta( $post->ID, 'bgb_enable_sponsor', true ) );
 	?> 
 		<p><?php _e('To enable sponsors branding for this group tick this checkbox', 'bgb_sponsor'); ?></p>
@@ -100,7 +101,7 @@ add_action('add_meta_boxes', 'bgb_metaboxes_sponsor_details');
 	//var_dump($enable_header_elements)	;
 		?> 
 		<p><?php _e('Enable group header elements.', 'bgb-branding'); ?></p>
-		 <label for="enable-group-branding">Enable group header branding</label>
+		 <label for="enable-group-branding"><?php _e('Enable group header branding', 'bgb-branding'); ?></label>
 		 <input id="enable-group-branding" type="checkbox" name="bgb_enable_group_header" value="1"  <?php checked( $enable_header_elements['bgb_enable_header'], 1 )?> />
 		 
 		<p><?php _e('If you do not want to use a featured image for the header you can add an image via the summary description editor.', 'bgb-branding'); ?></p>
@@ -216,41 +217,3 @@ add_action('add_meta_boxes', 'bgb_metaboxes_sponsor_details');
 	
 	<?php
 	}	
-#############################################################################
-
-	function rev_dish_ingredients($post) {
-	global $wp;
-
-		 wp_nonce_field( basename( __FILE__ ), 'revivalist_dish_post_nonce' ); ?>
-		 <table>
-		 
-		 <thead>
-			 <tr>
-			 	<th>Qnt</th><th>Ingredient</th><th>Notes</th>
-			 </tr>
-		 </thead>
-		 <tfoot></tfoot>
-		 <tbody>
-		 <tr>
-		 <td>
-		 <label>Qnt</label>
-		 <input type="text" name="ingredients_qnt" value="<?php echo esc_attr( get_post_meta( $post->ID, 'ingredient_qnt', false ) ); ?>" />
-		 </td>
-		 <td>
-		 <label>Ingredient Description</label>
-		 <input type="text" name="ingredient_desc" value="<?php echo esc_attr( get_post_meta( $post->ID, 'ingredient_desc', false ) ); ?>" />
-		 </td>
-		 <td>
-		 <label>Ingredient Notes</label>
-		 <input type="text" name="ingredient_notes" value="<?php echo esc_attr( get_post_meta( $post->ID, 'ingredient_notes', false ) ); ?>" />		 
-		 </td>
-		 </tr>
-		 </tbody>
-		 </table>
-	<?php	
-	}
-	
-//add_meta_box('rev-ingredients', 'Ingredients', 'rev_dish_ingredients', 'revivalist_dishes', 'normal', 'high');
-//add_meta_box('rev-summary', 'dish Summary', 'rev_dish_summary', 'revivalist_dishes', 'normal', 'high');
-
-?>

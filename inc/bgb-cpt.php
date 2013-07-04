@@ -1,5 +1,9 @@
 <?php
-
+/**
+* Register our CPT & Taxomomies
+*
+*
+*/
 	function register_post_type_sponsor() {
 	// Sponsors are site affilliates taking branded groups
 		// Set up some labels for the post type
@@ -94,46 +98,4 @@ function query_post_type($query) {
 
 }
 add_action('init', 'register_post_type_sponsor');
-
-
- 
-
-//} // close revivalist_cpt()
-//add_action('init', 'revivalist_cpt');
-
-
-// Saved re-write rules 
-/*
-// Add the rewrite rules
-add_action( 'init', 'inspired_ig_add_rules' );
-function inspired_ig_add_rules() {
-    add_rewrite_rule( 'my-instrument/?([^/]*)',
-        'index.php?pagename=my-instrument&instrument=$matches[1]', 'top' );
-
-    add_rewrite_rule( 'keynote/instruments/(.+)/?$',
-     'index.php?post_type=keynote&instruments=$matches[1]', 'top');
-
-    add_rewrite_rule( 'review/instruments/(.+)/?$',
-     'index.php?post_type=review&instruments=$matches[1]', 'top');  
-
-    add_rewrite_rule( 'chord_chart/instruments/(.+)/?$',
-     'index.php?post_type=chord_chart&instruments=$matches[1]', 'top');
-     
-    add_rewrite_rule( 'how_to/instruments/(.+)/?$',
-     'index.php?post_type=how_to&instruments=$matches[1]', 'top');      
-}
-
-// Add the store_id var so that WP recognizes it
-add_filter( 'query_vars', 'inspired_ig_add_query_var' );
-function inspired_ig_add_query_var( $vars ) {
-    $vars[] = 'instrument';
-    return $vars;
-}
-*/
-
-//print_r(plugin_dir_path(__FILE__) . 'inc/revivalist-metaboxes.php');
-
-
-//include_once( plugin_dir_path(__FILE__) . 'bgb-metaboxes.php');
-//include_once( plugin_dir_path(__FILE__) . 'bgb-metadata-save.php');
 ?>

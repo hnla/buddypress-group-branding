@@ -4,7 +4,7 @@
 * This file provides all the save_post functions for the metaboxes
 *
 * Rather than setting nonces for each box ( apparently & in practise seems to be an issue for multiple
-* save function) we rely on data sanitization of the $_POST[] variabals 
+* save function) we rely on data sanitization of the $_POST[] variables 
 * This may need re-visiting & revising!.
 *
 * ToDo: merge these metadata saves into one, and as an array? As example 'enable_group_header' function
@@ -28,11 +28,13 @@ global $wp, $post;
  if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) {
   return $post->ID;
     }
-	//if ( !isset( $_POST['revivalist_dish_summary_post_nonce'] ) || !wp_verify_nonce( $_POST['revivalist_dish_summary_post_nonce'], basename( __FILE__ ) ) )
+	//if ( !isset( $_POST['enable_this_sponsor'] ) || !wp_verify_nonce( $_POST['enable_this_sponsor], basename( __FILE__ ) ) )
 	  //return $post_id;
-//var_dump($post);
+	
+	//var_dump($post);
 	$post_id = $post->ID;
 	$post_type = get_post_type_object($post->post_type);
+
 //var_dump($post_type);
 	if( !current_user_can($post_type->cap->edit_post, $post_id) )
 	return $post_id;
@@ -98,6 +100,7 @@ global $wp, $post;
 }
 	//post saves
 add_action('save_post', 'bgb_save_enable_header', 10, 2);
+
 /*
 * Left Column: Metabox saves
 */
@@ -219,9 +222,11 @@ global $wp, $post;
     }
 //if ( !wp_verify_nonce( $_POST['bgb_sponsor_group_id_nonce'], basename( __FILE__ ) ) )
 	//  return $post_id;
+	
 	$post_id = $post->ID;
 	$post_type = get_post_type_object($post->post_type);
 	//var_dump($post_type);
+	
 	if( !current_user_can($post_type->cap->edit_post, $post_id) )
 	return $post_id;
 	
@@ -231,11 +236,17 @@ global $wp, $post;
 	
 	$meta_value = get_post_meta($post_id, $meta_key, true);
 	
+	/*
+	* This block of add/update options is hugely confusing but critical.
+	* Group meta must have the post id but also needs a means of updating if it changes 
+	* Note to self: iirc if we don't delete meta it increments causing confusion?
+	*/
 	if ( $new_meta_value )
 		groups_update_groupmeta( $new_meta_value, 'bgb_has_sponsor_post_id', $post_id );
 	
 	if( $new_meta_value  !== $meta_value )
 		groups_delete_groupmeta( $meta_value, 'bgb_has_sponsor_post_id', $post_id );
+		//groups_update_groupmeta( $new_meta_value, 'bgb_has_sponsor_post_id', $post_id );
 
 	if ( $new_meta_value && '' == $meta_value ) {
 		add_post_meta( $post_id, $meta_key, $new_meta_value, false );		
@@ -243,11 +254,11 @@ global $wp, $post;
 		
 	elseif ( $new_meta_value && $new_meta_value !== $meta_value ) {  
 		update_post_meta( $post_id, $meta_key, $new_meta_value );		
-		//groups_update_groupmeta( $new_meta_value, 'bgb_has_sponsor_post_id', $post_id );
+		groups_update_groupmeta( $new_meta_value, 'bgb_has_sponsor_post_id', $post_id );
 		}
 		
 	elseif ( '' == $new_meta_value && $meta_value )
-	 delete_post_meta( $post_id, $meta_key, $meta_value );
+	 delete_post_meta( $post_id, $meta_key, $meta_value ); // not sure why I wanted to delete but this looks wrong check in detail.
 }
 	//post saves
 add_action('save_post', 'bgb_sponsor_id', 10, 2);
@@ -286,6 +297,11 @@ add_action('save_post', 'bgb_sponsors_post_id', 10, 2);
 
 
 ####### SAVED FOR RFERENCE: REMOVE WHEN NO LONGER REQUIRED ############
+
+/*
+* BP Groups meta is being set in the function earlier 'bgb_sponsor_id'
+* This attempt proved unecessary to run as seperate function.
+*/
 function bgb_add_group_meta_id($post) {
 global $wp, $post, $groups, $bp;
 //	$post_id = $post->ID;

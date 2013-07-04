@@ -16,6 +16,8 @@
 * we loop the CPT post and feed through to the do_action.
 *
 */
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 	
 $bp = buddypress();
 
@@ -46,7 +48,7 @@ global $bgb_group_data;
 	if( $bgb_group_data->group_has_sponsor ) 
 		// todo: need to find a better way of doing this and of template file ?.
 		// We set this constant if group has sponsor we check for this define in home.php
-		// where BP runs it's checks to see which template to load/locate - this is not great approach
+		// where BP runs it's checks to see which template to load/locate - this is not a great approach
 		// as it means we must edit & provide a new home.php for this constant check/template selection.
 		define('BGB_CUSTOM_FRONT', 'bgb-group-front.php' ); 
 		
@@ -120,8 +122,7 @@ function add_activity_tab() {
 	}
 //var_dump($bp->groups->current_group);
 
-}// close function
- 
+} 
 add_action( 'bp_actions', 'add_activity_tab', 8 );
 
 /*
@@ -145,17 +146,23 @@ function bgb_group_header() {
 	$bgb_enable_elements = get_post_meta( $bgb_group_data->group_sponsor_post_id, 'bgb_header_elements', true);
 	
 	if( $bgb_enable_elements['bgb_enable_header'] ) {
+		
 		if( $bgb_enable_elements['bgb_header_image'] )
 			add_filter('bp_get_group_avatar', 'bgb_group_header_avatar');
+		
 		if( $bgb_enable_elements['bgb_header_description'] )
 			add_filter('bp_get_group_description', 'bgb_group_header_description');
-	}	
+	}
+		
 }
 add_action('bp_actions', 'bgb_group_header');
 
 /** 
 * Replace group $avatar with featured image
 * We only filter our header featured image if option allows it in bgb_group_header()
+*
+* @Todo This approach/filter has issues if running groups widget on same screen as it will hijack $avatar for widgets avatars as well
+* BP needs a seperate function for widget thumbs ?
 */
 function bgb_group_header_avatar($avatar) {
 global $wp, $groups_template, $bgb_group_data; 
@@ -178,7 +185,6 @@ function bgb_group_header_description( ) {
 	$bp = buddypress();
 	global $bgb_group_data;
 	//global $group, $groups_template;
-
 		
 	$group_current_group_id = $bp->groups->current_group->id ;
 	$group_has_sponsor_post_id = groups_get_groupmeta( $group_current_group_id, $meta_key = 'bgb_has_sponsor_post_id');	
@@ -191,7 +197,7 @@ function bgb_group_header_description( ) {
 
 /*
 * This is the main content from the CPT for the new group front page
-* ToDo: Although the two WP_Query approach was necessary initially, it needs checking again
+* @ToDo: Although the two WP_Query approach was necessary initially, it needs checking again
 * now we have group meta set with a post ID to use.
 */
 function bgb_group_content() {
@@ -259,8 +265,10 @@ global $bgb_group_data;
 		*/
 		add_filter( 'the_content', 'wpautop' ); 
 		bp_restore_all_filters('the_content');
+		
 		// Get the sponsor ID based on the post ID we now have
 		$sponsor_id = get_post_meta( $sponsor_post_id, 'bgb_sponsor_group_id', true);
+		
 		// check if we should show branding for this group
 		$is_sponsor_enabled = get_post_meta( $sponsor_post_id, 'bgb_enable_sponsor', true);
 		
@@ -274,8 +282,10 @@ global $bgb_group_data;
 		<p>this is group id: <?php var_dump($group_id); ?></p>
 		<p>this is sponsor id: <?php var_dump($sponsor_id); ?></p>
 		<p>Sponsor is enable for group: <?php var_dump( $is_sponsor_enabled ); ?></p>
+		<p>group_has_sponsor_id <?php var_dump($group_has_sponsor_post_id) ?></p>
+		<p>this group has a sponsor <?php var_dump($bgb_group_data->group_has_sponsor) ?></p>
 		<?php } ?>
-		<?php ########## remove the block above  for testing only ############## ?>
+		<?php ########## remove the block above -  for testing only ############## ?>
 		
 		<article id="group-sponsor-front">
 			
