@@ -34,13 +34,14 @@
 		 */
 
 		// Group is visible
-		if ( bp_group_is_visible() ) : 
+		if ( bp_group_is_visible() ) :
 
 			// Looking at home location
 			if ( bp_is_group_home() ) :
 
 				// Use custom front if one exists
-				var_dump('BGB_CUSTOM_FRONT');
+				// var_dump('BGB_CUSTOM_FRONT');
+
 				if(  defined( 'BGB_CUSTOM_FRONT' ) ) :
 					$custom_front = bp_locate_template( array( 'groups/single/'. BGB_CUSTOM_FRONT ), false, true );
 				else:
@@ -57,7 +58,7 @@
 				elseif ( bp_is_active( 'members'  ) ) : bp_get_template_part( 'groups/single/members'  );
 
 				endif;
-				
+
 			// Not looking at home
 			else :
 
