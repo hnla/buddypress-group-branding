@@ -48,7 +48,7 @@
 				// maybe custom front page already in use? ensure standard front.php still loads
 					$custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
 				endif;
-				var_dump($custom_front);
+				//var_dump($custom_front);
 				if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
 
 				// Default to activity
